@@ -6,7 +6,7 @@ import (
 	"os"
 	"path"
 
-	"github.com/MichaelMure/go-term-markdown"
+	markdown "github.com/MichaelMure/go-term-markdown"
 	"github.com/awesome-gocui/gocui"
 	"github.com/mattn/go-isatty"
 	"github.com/pkg/errors"
@@ -103,7 +103,9 @@ func newUi(g *gocui.Gui) (*ui, error) {
 		{renderView, gocui.KeyArrowDown, gocui.ModNone, result.down},
 		{renderView, gocui.KeyPgup, gocui.ModNone, result.pageUp},
 		{renderView, gocui.KeyPgdn, gocui.ModNone, result.pageDown},
-		{renderView, gocui.KeySpace, gocui.ModNone, result.pageDown},
+		{renderView, gocui.KeySpace, gocui.ModNone, result.halfDown},
+		{renderView, gocui.KeyCtrlD, gocui.ModNone, result.halfDown},
+		{renderView, gocui.KeyCtrlU, gocui.ModNone, result.halfUp},
 	}
 
 	for _, kb := range result.keybindings {
@@ -186,12 +188,27 @@ func (ui *ui) down(g *gocui.Gui, v *gocui.View) error {
 
 func (ui *ui) pageUp(g *gocui.Gui, v *gocui.View) error {
 	_, maxY := g.Size()
+	ui.YOffset -= maxY
+	ui.YOffset = max(ui.YOffset, 0)
+	return nil
+}
+
+func (ui *ui) halfUp(g *gocui.Gui, v *gocui.View) error {
+	_, maxY := g.Size()
 	ui.YOffset -= maxY / 2
 	ui.YOffset = max(ui.YOffset, 0)
 	return nil
 }
 
 func (ui *ui) pageDown(g *gocui.Gui, v *gocui.View) error {
+	_, maxY := g.Size()
+	ui.YOffset += maxY
+	ui.YOffset = min(ui.YOffset, ui.lines-maxY+1)
+	ui.YOffset = max(ui.YOffset, 0)
+	return nil
+}
+
+func (ui *ui) halfDown(g *gocui.Gui, v *gocui.View) error {
 	_, maxY := g.Size()
 	ui.YOffset += maxY / 2
 	ui.YOffset = min(ui.YOffset, ui.lines-maxY+1)

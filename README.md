@@ -27,7 +27,9 @@ You can grab a [pre-compiled binary](https://github.com/MichaelMure/mdr/releases
 | Up | <kbd>↑</kbd>, <kbd>K</kbd>, <kbd>ctrl+P</kbd>|
 | Down | <kbd>↓</kbd>, <kbd>J</kbd>, <kbd>ctrl+N</kbd> |
 | Page Up | <kbd>⇞</kbd> |
-| Page Down | <kbd>⇟</kbd>, <kbd>space</kbd> |
+| Page Down | <kbd>⇟</kbd> |
+| Ctrl-d | <kbd>half ⇟</kdb>, <kbd>space</kbd> |
+| Ctrl-u | <kbd>half ⇞</kdb> |
 
 ## Origin
 
