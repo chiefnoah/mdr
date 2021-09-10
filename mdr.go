@@ -128,7 +128,7 @@ func (ui *ui) layout(g *gocui.Gui) error {
 
 	v, err := g.SetView(renderView, ui.XOffset, -ui.YOffset, maxX, maxY, 0)
 	if err != nil {
-		if !gocui.IsUnknownView(err) {
+		if err != gocui.ErrUnknownView {
 			return err
 		}
 
